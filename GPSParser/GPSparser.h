@@ -8,7 +8,7 @@ struct RMC {
 };
 
 struct VTG {
-	float Tcouse, Mcourse, speedKnots, speedKilometers;
+	float Tcourse, Mcourse, speedKnots, speedKilometers;
 };
 
 struct GSA {

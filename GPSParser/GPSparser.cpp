@@ -3,6 +3,173 @@
 
 void GPSparser::StripVTG(char * data, int length)
 {
+	int i = 0;
+	bool kill = true;
+	char name[6];
+	char  ref;
+	dataVTG = new VTG;
+
+	// Name
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			name[i] = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
+
+	//Tcourse
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		double item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataVTG->Tcourse = item;
+		kill = true;
+	}
+
+	//Reference
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			ref = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
+
+	//Mcourse
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		double item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataVTG->Mcourse = item;
+		kill = true;
+	}
+
+	//Reference
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			ref = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
+
+	//speedKnots
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		double item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataVTG->speedKnots = item;
+		kill = true;
+	}
+
+	//Reference
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			ref = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
+
+	//speedKilometers
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		double item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataVTG->speedKilometers = item;
+		kill = true;
+	}
+
+	//Reference
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			ref = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
+
+	//Reference
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ','&&data[i] != '*') {
+			ref = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
 
 }
 
@@ -96,6 +263,7 @@ void GPSparser::StripRMC(char * data, int length)
 	}
 	dataRMC->N_S = N_S;
 	kill = true;
+	
 	//lon
 	{
 		char temp[10];
@@ -121,7 +289,6 @@ void GPSparser::StripRMC(char * data, int length)
 	}
 
 	//E_W
-
 	for (; i <= length && kill; ++i) {
 		if (data[i] != ',') {
 			E_W = data[i];
@@ -132,6 +299,7 @@ void GPSparser::StripRMC(char * data, int length)
 	}
 	dataRMC->E_W = E_W;
 	kill = true;
+
 	//Speed
 	{
 		char temp[10];
@@ -304,7 +472,7 @@ void GPSparser::StripGSA(char * data, int length)
 		char temp[10];
 		int t = 0;
 		for (; i <= length && kill; ++i) {
-			if (data[i] != ',') {
+			if (data[i] != ',' && data[i] != '*') {
 				temp[t] = data[i];
 				++t;
 			}
@@ -320,7 +488,7 @@ void GPSparser::StripGSA(char * data, int length)
 			item = -1.0;
 		}
 		dataGSA->VDOP = item;
-		
+		kill = true;
 	}
 
 }
@@ -372,32 +540,62 @@ float GPSparser::speedKilometers()
 
 float GPSparser::Latitude()
 {
-	return 0.0f;
+	if (dataRMC != nullptr) {
+		return dataRMC->latitude;
+	}
+	else {
+		return -1.0f;
+	}
 }
 
 float GPSparser::Longitude()
 {
-	return 0.0f;
+	if (dataRMC != nullptr) {
+		return dataRMC->longitude;
+	}
+	else {
+		return -1.0f;
+	}
 }
 
 float GPSparser::speed()
 {
-	return 0.0f;
+	if (dataRMC != nullptr) {
+		return dataRMC->speed;
+	}
+	else {
+		return -1.0f;
+	}
 }
 
 float GPSparser::course()
 {
-	return 0.0f;
+	if (dataRMC != nullptr) {
+		return dataRMC->course;
+	}
+	else {
+		return -1.0f;
+	}
 }
 
 char GPSparser::N_S_direction()
 {
-	return 0;
+	if (dataRMC != nullptr) {
+		return dataRMC->N_S;
+	}
+	else {
+		return -1;
+	}
 }
 
 char GPSparser::E_W_direction()
 {
-	return 0;
+	if (dataRMC != nullptr) {
+		return dataRMC->E_W;
+	}
+	else {
+		return -1;
+	}
 }
 
 // GSA data
