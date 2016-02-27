@@ -13,7 +13,7 @@ struct VTG {
 
 struct GSA {
 	char ModeOne, ModeTwo;
-	double satID[12];
+	float satID[12];
 	float PDOP, HDOP, VDOP;
 };
 
@@ -27,6 +27,8 @@ private:
 	void StripVTG(char *data, int length);
 	void StripRMC(char *data, int length);
 	void StripGSA(char *data, int length);
+
+	float charTofloat(char *data);
 
 public:
 
@@ -53,7 +55,7 @@ public:
 
 	char ModeOne();
 	char ModeTwo();
-	double* satIDs();
+	float* satIDs();
 	float PDOP();
 	float HDOP();
 	float VDOP();

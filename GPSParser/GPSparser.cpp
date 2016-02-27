@@ -1,5 +1,5 @@
 #include "GPSparser.h"
-#include <cstdlib>
+
 
 void GPSparser::StripVTG(char * data, int length)
 {
@@ -33,9 +33,9 @@ void GPSparser::StripVTG(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -68,9 +68,9 @@ void GPSparser::StripVTG(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -103,9 +103,9 @@ void GPSparser::StripVTG(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -138,9 +138,9 @@ void GPSparser::StripVTG(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -205,9 +205,9 @@ void GPSparser::StripRMC(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -241,9 +241,9 @@ void GPSparser::StripRMC(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -277,9 +277,9 @@ void GPSparser::StripRMC(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -313,9 +313,9 @@ void GPSparser::StripRMC(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -337,9 +337,9 @@ void GPSparser::StripRMC(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -408,9 +408,9 @@ void GPSparser::StripGSA(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -432,9 +432,9 @@ void GPSparser::StripGSA(char * data, int length)
 			kill = false;
 		}
 	}
-	double item;
+	float item;
 	if (t > 0) {
-		item = atof(temp);
+		item = charTofloat(temp);
 	}
 	else {
 		item = -1.0;
@@ -456,9 +456,9 @@ void GPSparser::StripGSA(char * data, int length)
 			kill = false;
 		}
 	}
-	double item;
+	float item;
 	if (t > 0) {
-		item = atof(temp);
+		item = charTofloat(temp);
 	}
 	else {
 		item = -1.0;
@@ -480,9 +480,9 @@ void GPSparser::StripGSA(char * data, int length)
 				kill = false;
 			}
 		}
-		double item;
+		float item;
 		if (t > 0) {
-			item = atof(temp);
+			item = charTofloat(temp);
 		}
 		else {
 			item = -1.0;
@@ -491,6 +491,11 @@ void GPSparser::StripGSA(char * data, int length)
 		kill = true;
 	}
 
+}
+
+float GPSparser::charTofloat(char * data)
+{
+	return 0.0f;
 }
 
 void GPSparser::giveData(char * info, int length)
@@ -616,10 +621,10 @@ char GPSparser::ModeTwo()
 		return -1;
 }
 
-double * GPSparser::satIDs()
+float * GPSparser::satIDs()
 {
 
-	double* data = new double[12];
+	float* data = new float[12];
 	if (dataGSA != nullptr)
 		data = dataGSA->satID;
 	

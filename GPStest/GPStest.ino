@@ -1,6 +1,10 @@
+
+#include <GPSparser.h>
 #include <SoftwareSerial.h>
 
 SoftwareSerial GPSconnect(3,2);
+GPSparser pars;
+
 
 void setup() {
   Serial.begin(115200);
@@ -29,9 +33,9 @@ void loop() {
  
  String dat = information.substring(last);
  dat.trim();
- Serial.println(dat);
- if(dat.startsWith("$GPRMC")){
-  Serial.println(dat);
- }
+ char info[dat.length()];
+ dat.toCharArray(info,dat.length());
+ pars.giveData(info,dat.length());
+ 
  delay(3000);
 }
