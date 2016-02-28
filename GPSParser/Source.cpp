@@ -12,6 +12,6 @@ int main(int argc, char **argv) {
 	test.giveData(testOne, 50);
 	test.giveData(testTwo, 66);
 	test.giveData(testThree, 37);
-
-
+	
+	
 }

@@ -35,7 +35,7 @@ void GPSparser::StripVTG(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -70,7 +70,7 @@ void GPSparser::StripVTG(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -105,7 +105,7 @@ void GPSparser::StripVTG(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -140,7 +140,7 @@ void GPSparser::StripVTG(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -207,7 +207,7 @@ void GPSparser::StripRMC(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -243,7 +243,7 @@ void GPSparser::StripRMC(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -279,7 +279,7 @@ void GPSparser::StripRMC(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -315,7 +315,7 @@ void GPSparser::StripRMC(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -339,7 +339,7 @@ void GPSparser::StripRMC(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -410,7 +410,7 @@ void GPSparser::StripGSA(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -434,7 +434,7 @@ void GPSparser::StripGSA(char * data, int length)
 	}
 	float item;
 	if (t > 0) {
-		item = charTofloat(temp);
+		item = atof(temp);
 	}
 	else {
 		item = -1.0;
@@ -458,7 +458,7 @@ void GPSparser::StripGSA(char * data, int length)
 	}
 	float item;
 	if (t > 0) {
-		item = charTofloat(temp);
+		item = atof(temp);
 	}
 	else {
 		item = -1.0;
@@ -482,7 +482,7 @@ void GPSparser::StripGSA(char * data, int length)
 		}
 		float item;
 		if (t > 0) {
-			item = charTofloat(temp);
+			item = atof(temp);
 		}
 		else {
 			item = -1.0;
@@ -493,20 +493,43 @@ void GPSparser::StripGSA(char * data, int length)
 
 }
 
-float GPSparser::charTofloat(char * data)
+/* atof: convert string s to double */
+double GPSparser::atof(char *s)
 {
-	return 0.0f;
+	double val, power;
+	int i, sign;
+	for (i = 0; isspace(s[i]); i++) /* skip white space */
+		;
+
+	sign = (s[i] == '-') ? -1 : 1;
+
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+
+	for (val = 0.0; isdigit(s[i]); i++)
+		val = 10.0 * val + (s[i] - '0');
+
+	if (s[i] == '.')
+		i++;
+	for (power = 1.0; isdigit(s[i]); i++)
+	{
+		val = 10.0 * val + (s[i] - '0');
+		power *= 10;
+	}
+
+	return sign * val / power;
+
 }
 
 void GPSparser::giveData(char * info, int length)
 {
-	if (info[3] == 'V') {
+	if (info[3] == 'V' && info[4] == 'T' && info[5] == 'G') {
 		StripVTG(info,length);
 	}
-	else if (info[3] == 'R') {
+	else if (info[3] == 'R' && info[4] == 'M' && info[5] == 'C') {
 		StripRMC(info,length);
 	}
-	else if (info[3] == 'G') {
+	else if (info[3] == 'G' && info[4] == 'S' && info[5] == 'A') {
 		StripGSA(info,length);
 	}
 	
@@ -520,29 +543,39 @@ void GPSparser::clearData()
 }
 
 //VTG data
-
 float GPSparser::Tcourse()
 {
-	return 0.0f;
+	if (dataVTG != nullptr)
+		return dataVTG->Tcourse;
+	else
+		return -1.0f;
 }
 
 float GPSparser::Mcourse()
 {
-	return 0.0f;
+	if (dataVTG != nullptr)
+		return dataVTG->Mcourse;
+	else
+		return -1.0f;
 }
 
 float GPSparser::speedKnots()
 {
-	return 0.0f;
+	if (dataVTG != nullptr)
+		return dataVTG->speedKnots;
+	else
+		return -1.0f;
 }
 
 float GPSparser::speedKilometers()
 {
-	return 0.0f;
+	if (dataVTG != nullptr)
+		return dataVTG->speedKilometers;
+	else
+		return -1.0f;
 }
 
 //RMC data
-
 float GPSparser::Latitude()
 {
 	if (dataRMC != nullptr) {
@@ -589,7 +622,7 @@ char GPSparser::N_S_direction()
 		return dataRMC->N_S;
 	}
 	else {
-		return -1;
+		return '#';
 	}
 }
 
@@ -599,18 +632,17 @@ char GPSparser::E_W_direction()
 		return dataRMC->E_W;
 	}
 	else {
-		return -1;
+		return '#';
 	}
 }
 
 // GSA data
-
 char GPSparser::ModeOne()
 {
 	if (dataGSA != nullptr)
 		return dataGSA->ModeOne;
 	else
-		return -1;
+		return '#';
 }
 
 char GPSparser::ModeTwo()
@@ -618,7 +650,7 @@ char GPSparser::ModeTwo()
 	if (dataGSA != nullptr)
 		return dataGSA->ModeTwo;
 	else
-		return -1;
+		return '#';
 }
 
 float * GPSparser::satIDs()
@@ -653,4 +685,15 @@ float GPSparser::VDOP()
 		return dataGSA->VDOP;
 	else
 		return -1.0;
+}
+
+bool GPSparser::isdigit(char t)
+{
+	
+	return t>='0' && t<='9';
+}
+
+bool GPSparser::isspace(char t)
+{
+	return !(t >= '0' && t <= '9');
 }

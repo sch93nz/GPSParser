@@ -19,8 +19,10 @@ void setup() {
 
 }
 
+long time;
 
 void loop() {
+ 
  int length = GPSconnect.available();
  char data[length];
  int i=0;
@@ -31,11 +33,30 @@ void loop() {
  
  int last = information.lastIndexOf('$');
  
- String dat = information.substring(last);
+ String dat = information.substring(last,0);
  dat.trim();
  char info[dat.length()];
  dat.toCharArray(info,dat.length());
- pars.giveData(info,dat.length());
+// Serial.print("pure out put ");
+// Serial.println(data);
+// Serial.print("out put   ");
+// Serial.println(dat);
  
- delay(3000);
+ pars.giveData(info,dat.length());
+
+  long diff = millis() - time;
+  if(diff >950 && diff < 1050){
+    Serial.println("Starting read");
+    time = millis();
+    String hata = String("ModeOne "+ String(pars.ModeOne())+
+    " ModeTwo "+ String(pars.ModeTwo()));
+    
+    Serial.println(hata);
+
+    if(pars.ModeTwo()!='1'){
+      Serial.println("We should havve more data");
+    }
+  }
+ delay(250);
+ 
 }

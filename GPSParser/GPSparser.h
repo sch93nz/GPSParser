@@ -28,7 +28,9 @@ private:
 	void StripRMC(char *data, int length);
 	void StripGSA(char *data, int length);
 
-	float charTofloat(char *data);
+	double atof(char *s);
+	bool isdigit(char t);
+	bool isspace(char t);
 
 public:
 
