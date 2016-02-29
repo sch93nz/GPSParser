@@ -11,6 +11,11 @@ struct VTG {
 	float Tcourse, Mcourse, speedKnots, speedKilometers;
 };
 
+struct GGA {
+	float UTC, latitude, Longitude, Fix, Satellites, HDOP, MSL, GeoSep;
+	char N_S, E_W, AltUnit, GeoSepUnit;
+};
+
 struct GSA {
 	char ModeOne, ModeTwo;
 	float satID[12];
@@ -23,6 +28,7 @@ private:
 	RMC *dataRMC;
 	VTG *dataVTG;
 	GSA *dataGSA;
+	GGA *dataGGA;
 
 	void StripVTG(char *data, int length);
 	void StripRMC(char *data, int length);

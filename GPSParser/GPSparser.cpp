@@ -522,7 +522,7 @@ double GPSparser::atof(char *s)
 }
 
 void GPSparser::giveData(char * info, int length)
-{
+{ 
 	if (info[3] == 'V' && info[4] == 'T' && info[5] == 'G') {
 		StripVTG(info,length);
 	}
@@ -532,6 +532,9 @@ void GPSparser::giveData(char * info, int length)
 	else if (info[3] == 'G' && info[4] == 'S' && info[5] == 'A') {
 		StripGSA(info,length);
 	}
+	else if (info[3] == 'G' && info[4] == 'G' && info[5] == 'A') {
+
+	}
 	
 }
 
@@ -540,6 +543,7 @@ void GPSparser::clearData()
 	dataGSA = nullptr;
 	dataRMC = nullptr;
 	dataVTG = nullptr;
+	dataGGA = nullptr;
 }
 
 //VTG data
