@@ -33,6 +33,7 @@ private:
 	void StripVTG(char *data, int length);
 	void StripRMC(char *data, int length);
 	void StripGSA(char *data, int length);
+	void StripGGA(char *data, int length);
 
 	double atof(char *s);
 	bool isdigit(char t);
@@ -67,5 +68,13 @@ public:
 	float PDOP();
 	float HDOP();
 	float VDOP();
+
+	//GGA data
+
+	float Satalllites();
+	float MSL();
+	float Fix();
+	float GeoSep();
+	float UTC();
 
 };

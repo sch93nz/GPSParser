@@ -493,6 +493,261 @@ void GPSparser::StripGSA(char * data, int length)
 
 }
 
+void GPSparser::StripGGA(char * data, int length)
+{
+
+	int i = 0;
+	bool kill = true;
+	char name[6];
+	dataGGA = new GGA;
+	char modeOne, ModeTwo;
+
+
+	// Name
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			name[i] = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	kill = true;
+	
+	//UTC
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataGGA->UTC = item;
+		kill = true;
+	}
+
+	//Latitude
+	{
+		
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataGGA->latitude = item;
+		kill = true;
+	}
+		//N_S
+	char N_S;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				N_S = data[i];
+			}
+			else {
+				kill = false;
+			}
+		}
+		dataGGA->N_S = N_S;
+		kill = true;
+	
+
+	//lon
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataGGA->Longitude = item;
+		kill = true;
+	}
+
+	//E_W
+	char E_W;
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			E_W = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	dataGGA->E_W = E_W;
+	kill = true;
+	
+	// position Fix indicator
+	char Status;
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			Status = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	dataGGA->Fix = Status;
+	kill = true;
+
+	// Number of Satallites
+	{
+		char temp[2];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataGGA->Satellites = item;
+		kill = true;
+	}
+
+	// HDOP
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = 0.0;
+		}
+		dataGGA->HDOP = item;
+		kill = true;
+	}
+
+	// MSL Altitude
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataGGA->MSL = item;
+		kill = true;
+	}
+	
+	// AltUnit
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			modeOne = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	dataGGA->AltUnit = modeOne;
+	kill = true;
+
+	// Geoidal Separation
+	{
+		char temp[10];
+		int t = 0;
+		for (; i <= length && kill; ++i) {
+			if (data[i] != ',') {
+				temp[t] = data[i];
+				++t;
+			}
+			else {
+				kill = false;
+			}
+		}
+		float item;
+		if (t > 0) {
+			item = atof(temp);
+		}
+		else {
+			item = -1.0;
+		}
+		dataGGA->GeoSep = item;
+		kill = true;
+	}
+
+	// Geoidal Separation Unit
+	for (; i <= length && kill; ++i) {
+		if (data[i] != ',') {
+			modeOne = data[i];
+		}
+		else {
+			kill = false;
+		}
+	}
+	dataGGA->GeoSepUnit= modeOne;
+	kill = true;
+
+}
+
 /* atof: convert string s to double */
 double GPSparser::atof(char *s)
 {
@@ -533,7 +788,7 @@ void GPSparser::giveData(char * info, int length)
 		StripGSA(info,length);
 	}
 	else if (info[3] == 'G' && info[4] == 'G' && info[5] == 'A') {
-
+		StripGGA(info,length);
 	}
 	
 }
@@ -585,7 +840,9 @@ float GPSparser::Latitude()
 	if (dataRMC != nullptr) {
 		return dataRMC->latitude;
 	}
-	else {
+	else if (dataGGA != nullptr) {
+		return dataGGA->latitude;
+	}else{
 		return -1.0f;
 	}
 }
@@ -594,6 +851,9 @@ float GPSparser::Longitude()
 {
 	if (dataRMC != nullptr) {
 		return dataRMC->longitude;
+	}
+	else if (dataGGA != nullptr) {
+		return dataGGA->Longitude;
 	}
 	else {
 		return -1.0f;
@@ -625,6 +885,9 @@ char GPSparser::N_S_direction()
 	if (dataRMC != nullptr) {
 		return dataRMC->N_S;
 	}
+	else if (dataGGA != nullptr) {
+		return dataGGA->N_S;
+	}
 	else {
 		return '#';
 	}
@@ -634,6 +897,9 @@ char GPSparser::E_W_direction()
 {
 	if (dataRMC != nullptr) {
 		return dataRMC->E_W;
+	}
+	else if (dataGGA != nullptr) {
+		return dataGGA->E_W;
 	}
 	else {
 		return '#';
@@ -679,8 +945,11 @@ float GPSparser::HDOP()
 {
 	if (dataGSA != nullptr)
 		return dataGSA->HDOP;
-	else
-		return -1.0;
+	else if (dataGGA != nullptr) {
+		return dataGGA->HDOP;
+	}else {
+		return 0.0f;
+	}
 }
 
 float GPSparser::VDOP()
@@ -689,6 +958,41 @@ float GPSparser::VDOP()
 		return dataGSA->VDOP;
 	else
 		return -1.0;
+}
+
+//GGA data
+float GPSparser::Satalllites()
+{
+	return dataGGA->Satellites;
+}
+
+float GPSparser::MSL()
+{
+	return dataGGA->MSL;
+}
+
+float GPSparser::Fix()
+{
+	return dataGGA->Fix;
+}
+
+float GPSparser::GeoSep()
+{
+	return dataGGA->GeoSep;
+}
+
+float GPSparser::UTC()
+{
+	if (dataRMC != nullptr) {
+		return dataRMC->UTC;
+	}
+	else if (dataGGA != nullptr) {
+		return dataGGA->UTC;
+	}
+	else { 
+		return 0.0; 
+	}
+
 }
 
 bool GPSparser::isdigit(char t)

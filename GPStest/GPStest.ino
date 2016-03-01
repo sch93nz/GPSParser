@@ -14,12 +14,6 @@ SoftwareSerial GPSconnect(2, 3);
 GPSparser pars;
 
 
-
-int X;
-int Y;
-int Z;
-
-
 long time;
 long time2;
 
@@ -40,9 +34,9 @@ void setup() {
 
 void loop() {
 
-  GPShandle();
+  //GPShandle();
 
-  //ADXL3handle();
+  ADXL3handle();
 
   delay(250);
 
@@ -126,36 +120,36 @@ void ADXL3handle() {
   int xpin = A2;
 
   long diff = millis() - time2;
-  X += analogRead(xpin);
-  Y += analogRead(ypin);
-  Z += analogRead(zpin);
-
-  if (diff > 50 && diff < 150) {
-    //    Serial.print("X axis: ");
-    //    Serial.print((X/4));
-    //    Serial.print("\t Y axis: ");
-    //    Serial.print((Y/4));
-    //    Serial.print("\t Z axis: ");
-    //    Serial.print((Z/4));
-    //    Serial.println();
-    //
-    Serial.print("X axis: ");
-    Serial.print(inputTOdegrees(X / 4));
+   int X=analogRead(xpin);
+   int Y=analogRead(ypin);
+   int Z=analogRead(zpin);
+   Serial.println();
+        Serial.print("X axis: ");
+        Serial.print((X));
+        Serial.print("\t Y axis: ");
+        Serial.print((Y));
+        Serial.print("\t Z axis: ");
+        Serial.print((Z));
+        //Serial.println();
+    
+    Serial.print("  ||  X axis: ");
+    Serial.print(inputTOdegrees(X));
     Serial.print("d");
-    X = 0;
+    
     Serial.print("\t Y axis: ");
-    Serial.print(inputTOdegrees(Y / 4));
+    Serial.print(inputTOdegrees(Y));
     Serial.print("d");
-    Y = 0;
+  
     Serial.print("\t Z axis: ");
-    Serial.print(inputTOdegrees(Z / 4));
+    Serial.print(inputTOdegrees(Z));
     Serial.print("d");
-    Z = 0;
+ 
     Serial.println();
+    
     time2 = millis();
   }
 
-}
+
 
 void GPShandle() {
 
@@ -179,21 +173,20 @@ void GPShandle() {
 
   char info[dat.length()];
   dat.toCharArray(info, dat.length());
-  Serial.print("pure out ");
-  Serial.print(information);
-  Serial.println("|");
+//  Serial.print("pure out ");
+//  Serial.print(information);
+//  Serial.println("|");
+//
+//  Serial.print("out put  ");
+//  Serial.print(dat);
+//  Serial.println("|");
 
-  Serial.print("out put  ");
-  Serial.print(dat);
-  Serial.println("|");
-
- // free(data);
 
   if (dat.length() > 10) {
     pars.giveData(info, dat.length());
-
+  }
     long diff = millis() - time;
-    if (diff > 950 && diff < 1050) {
+    if (diff > 900 && diff < 1100) {
       time = millis();
       String hata = String("ModeOne " + String(pars.ModeOne()) +
                            " ModeTwo " + String(pars.ModeTwo()));
@@ -203,8 +196,8 @@ void GPShandle() {
       if (pars.ModeTwo() != '1' && pars.ModeTwo() != '#') {
         Serial.println("We should havve more data");
       }
-      pars.clearData();
+     // pars.clearData();
     }
-  }
+  
 }
 
