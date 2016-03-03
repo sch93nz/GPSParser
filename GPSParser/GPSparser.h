@@ -2,21 +2,24 @@
 
 
 struct RMC {
-
+	char* name;
 	float UTC,latitude, longitude,speed,course;
 	char N_S, E_W,Status;
 };
 
 struct VTG {
+	char* name;
 	float Tcourse, Mcourse, speedKnots, speedKilometers;
 };
 
 struct GGA {
+	char *name;
 	float UTC, latitude, Longitude, Fix, Satellites, HDOP, MSL, GeoSep;
 	char N_S, E_W, AltUnit, GeoSepUnit;
 };
 
 struct GSA {
+	char *name;
 	char ModeOne, ModeTwo;
 	float satID[12];
 	float PDOP, HDOP, VDOP;
@@ -43,7 +46,7 @@ public:
 
 	void giveData(char *info,int length);
 	void clearData();
-	
+	char* names();
 	//VTG data
 	
 	float Tcourse();

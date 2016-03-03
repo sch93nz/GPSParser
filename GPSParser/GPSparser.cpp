@@ -5,7 +5,7 @@ void GPSparser::StripVTG(char * data, int length)
 {
 	int i = 0;
 	bool kill = true;
-	char name[6];
+	char * name = new char[6];
 	char  ref;
 	dataVTG = new VTG;
 
@@ -18,6 +18,7 @@ void GPSparser::StripVTG(char * data, int length)
 			kill = false;
 		}
 	}
+	dataVTG->name = name;
 	kill = true;
 
 	//Tcourse
@@ -177,7 +178,7 @@ void GPSparser::StripRMC(char * data, int length)
 {
 	int i = 0;
 	bool kill = true;
-	char name[6];
+	char * name = new char[6];
 	char Status, N_S, E_W;
 	
 	dataRMC = new RMC;
@@ -190,6 +191,7 @@ void GPSparser::StripRMC(char * data, int length)
 			kill = false;
 		}
 	}
+	dataRMC->name = name;
 	kill = true;
 
 	// UTS
@@ -355,7 +357,7 @@ void GPSparser::StripGSA(char * data, int length)
 {
 	int i = 0;
 	bool kill = true;
-	char name[6];
+	char *name = new char[6];
 	dataGSA = new GSA;
 	char modeOne, ModeTwo;
 	
@@ -369,6 +371,7 @@ void GPSparser::StripGSA(char * data, int length)
 			kill = false;
 		}
 	}
+	dataGSA->name = name;
 	kill = true;
 
 	// Mode 1
@@ -498,7 +501,7 @@ void GPSparser::StripGGA(char * data, int length)
 
 	int i = 0;
 	bool kill = true;
-	char name[6];
+	char *name= new char[6];
 	dataGGA = new GGA;
 	char modeOne, ModeTwo;
 
@@ -512,6 +515,7 @@ void GPSparser::StripGGA(char * data, int length)
 			kill = false;
 		}
 	}
+	dataGGA->name=name;
 	kill = true;
 	
 	//UTC
@@ -799,6 +803,58 @@ void GPSparser::clearData()
 	dataRMC = nullptr;
 	dataVTG = nullptr;
 	dataGGA = nullptr;
+}
+
+char * GPSparser::names()
+{
+	char *data=new char[34];
+	int k = 0;
+	if (dataGGA != nullptr) {
+		for (int i = 0; i < 6; ++i) {
+			data[k] = dataGGA->name[i];
+			++k;
+		}
+		data[k] = ' ';
+		++k;
+		data[k] = ',';
+		++k;
+		data[k] = ' ';
+		++k;
+	}
+	if (dataGSA != nullptr) {
+		for (int i = 0; i < 6; ++i) {
+			data[k] = dataGSA->name[i];
+			++k;
+		}
+		data[k] = ' ';
+		++k;
+		data[k] = ',';
+		++k;
+		data[k] = ' ';
+		++k;
+	}
+	if (dataRMC != nullptr) {
+		for (int i = 0; i < 6; ++i) {
+			data[k] = dataRMC->name[i];
+			++k;
+		}
+		data[k] = ' ';
+		++k;
+		data[k] = ',';
+		++k;
+		data[k] = ' ';
+		++k;
+	}
+	if (dataVTG != nullptr) {
+		for (int i = 0; i < 6; ++i) {
+			data[k] = dataVTG->name[i];
+			++k;
+		}
+		data[k] = '\n';
+	
+	}
+	return data;
+		
 }
 
 //VTG data

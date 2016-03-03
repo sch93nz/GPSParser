@@ -21,6 +21,8 @@ int main(int argc, char **argv) {
 	test.giveData(testTwo, 66);
 	test.giveData(testThree, 37);
 	test.giveData(testfour, 69);
+	printf(test.names());
+
 
 	int d = inputTOdegrees(419);
 	d = inputTOdegrees(418);
