@@ -25,25 +25,19 @@ void GPSparser::StripVTG(char * data, int length)
 
 	//Tcourse
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataVTG.Tcourse[t] = data[i];
 				++t;
 			}
 			else {
+				dataVTG.Tcourse[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataVTG.Tcourse = item;
+		
 		kill = true;
 	}
 
@@ -60,25 +54,17 @@ void GPSparser::StripVTG(char * data, int length)
 
 	//Mcourse
 	{
-		char temp[10];
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataVTG.Mcourse[t] = data[i];
 				++t;
 			}
 			else {
+				dataVTG.Mcourse[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataVTG.Mcourse = item;
 		kill = true;
 	}
 
@@ -95,25 +81,19 @@ void GPSparser::StripVTG(char * data, int length)
 
 	//speedKnots
 	{
-		char temp[10];
+	
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataVTG.speedKnots[t] = data[i];
 				++t;
 			}
 			else {
+				dataVTG.speedKnots[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataVTG.speedKnots = item;
+		
 		kill = true;
 	}
 
@@ -130,25 +110,19 @@ void GPSparser::StripVTG(char * data, int length)
 
 	//speedKilometers
 	{
-		char temp[10];
+	
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataVTG.speedKilometers[t] = data[i];
 				++t;
 			}
 			else {
+				dataVTG.speedKilometers[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataVTG.speedKilometers = item;
+
 		kill = true;
 	}
 
@@ -179,10 +153,11 @@ void GPSparser::StripVTG(char * data, int length)
 void GPSparser::clearVTG()
 {
 	dataVTG.name[0] = '\0';
-	dataVTG.Mcourse = -1.0f;
-	dataVTG.speedKilometers = -1.0f;
-	dataVTG.speedKnots = -1.0f;
-	dataVTG.Tcourse = -1.0f;
+	dataVTG.Mcourse[0] = '\0';
+	dataVTG.speedKilometers[0] = '\0';
+	dataVTG.speedKnots[0] = '\0';
+	dataVTG.Tcourse[0] = '\0';
+
 }
 
 void GPSparser::StripRMC(char * data, int length)
@@ -208,25 +183,19 @@ void GPSparser::StripRMC(char * data, int length)
 
 	// UTS
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataRMC.UTC[t] = data[i];
 				++t;
 			}
 			else {
+				dataRMC.UTC[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataRMC.UTC = item;
+		
 		kill = true;
 	}
 
@@ -244,25 +213,19 @@ void GPSparser::StripRMC(char * data, int length)
 	
 	//Latitude
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataRMC.latitude[t] = data[i];
 				++t;
 			}
 			else {
+				dataRMC.latitude[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataRMC.latitude = item;
+		
 		kill = true;
 	}
 
@@ -280,25 +243,18 @@ void GPSparser::StripRMC(char * data, int length)
 	
 	//lon
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataRMC.longitude[t] = data[i];
 				++t;
 			}
 			else {
+				dataRMC.longitude[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataRMC.longitude = item;
 		kill = true;
 	}
 
@@ -316,49 +272,37 @@ void GPSparser::StripRMC(char * data, int length)
 
 	//Speed
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataRMC.speed[t] = data[i];
 				++t;
 			}
 			else {
+				dataRMC.speed[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataRMC.speed = item;
+		
 		kill = true;
 	}
 
 	//course
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataRMC.course[t] = data[i];
 				++t;
 			}
 			else {
+				dataRMC.course[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataRMC.course = item;
+		
 		kill = true;
 	}
 
@@ -368,14 +312,14 @@ void GPSparser::StripRMC(char * data, int length)
 void GPSparser::clearRMC()
 {
 	dataRMC.name[0] = '\0';
-	dataRMC.course = -1.0f;
+	dataRMC.course[0] = '\0';
 	dataRMC.E_W = '\0';
-	dataRMC.latitude = -1.0f;
-	dataRMC.longitude = -1.0f;
+	dataRMC.latitude[0] = '\0';
+	dataRMC.longitude[0] = '\0';
 	dataRMC.N_S = '\0';
-	dataRMC.speed = -1.0f;
+	dataRMC.speed[0] = '\0';
 	dataRMC.Status = '\0';
-	dataRMC.UTC = -1.0;
+	dataRMC.UTC[0] = '\0';
 }
 
 void GPSparser::StripGSA(char * data, int length)
@@ -449,73 +393,55 @@ void GPSparser::StripGSA(char * data, int length)
 
 	// PDOP
 	{
-	char temp[10];
+	
 	int t = 0;
 	for (; i <= length && kill; ++i) {
 		if (data[i] != ',') {
-			temp[t] = data[i];
+			dataGSA.PDOP[t] = data[i];
 			++t;
 		}
 		else {
+			dataGSA.PDOP[t] = '\0';
 			kill = false;
 		}
 	}
-	float item;
-	if (t > 0) {
-		item = atof(temp);
-	}
-	else {
-		item = -1.0;
-	}
-	dataGSA.PDOP = item;
+	
 	kill = true;
 }
 	
 	// HDOP
 	{
-	char temp[10];
+	
 	int t = 0;
 	for (; i <= length && kill; ++i) {
 		if (data[i] != ',') {
-			temp[t] = data[i];
+			dataGSA.HDOP[t] = data[i];
 			++t;
 		}
 		else {
+			dataGSA.HDOP[t] = '\0';
 			kill = false;
 		}
 	}
-	float item;
-	if (t > 0) {
-		item = atof(temp);
-	}
-	else {
-		item = -1.0;
-	}
-	dataGSA.HDOP = item;
+	
 	kill = true;
 }
 	
 	// VDOP
 	{
-		char temp[10];
+	
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',' && data[i] != '*') {
-				temp[t] = data[i];
+				dataGSA.VDOP[t] = data[i];
 				++t;
 			}
 			else {
+				dataGSA.VDOP[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGSA.VDOP = item;
+		
 		kill = true;
 	}
 
@@ -524,14 +450,14 @@ void GPSparser::StripGSA(char * data, int length)
 void GPSparser::clearGSA()
 {
 	dataGSA.name[0] = '\0';
-	dataGSA.HDOP = -1.0f;
+	dataGSA.HDOP[0] = '\0';
 	dataGSA.ModeOne = '\0';
 	dataGSA.ModeTwo = '\0';
-	dataGSA.PDOP = -1.0f;
+	dataGSA.PDOP[0] = '\0';
 	for (int i = 0; i < 12; ++i) {
 		dataGSA.satID[i] = -1.0f;
 	}
-	dataGSA.VDOP = -1.0f;
+	dataGSA.VDOP[0] = '\0';
 }
 
 void GPSparser::StripGGA(char * data, int length)
@@ -556,50 +482,38 @@ void GPSparser::StripGGA(char * data, int length)
 	
 	//UTC
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.UTC[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.UTC[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGGA.UTC = item;
+	
 		kill = true;
 	}
 
 	//Latitude
 	{
 		
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.latitude[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.latitude[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGGA.latitude = item;
+		
 		kill = true;
 	}
 		//N_S
@@ -618,25 +532,19 @@ void GPSparser::StripGGA(char * data, int length)
 
 	//lon
 	{
-		char temp[10];
+	
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.longitude[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.longitude[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGGA.Longitude = item;
+		
 		kill = true;
 	}
 
@@ -668,73 +576,55 @@ void GPSparser::StripGGA(char * data, int length)
 
 	// Number of Satallites
 	{
-		char temp[2];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.Satellites[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.Satellites[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGGA.Satellites = item;
+		
 		kill = true;
 	}
 
 	// HDOP
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.HDOP[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.HDOP[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = 0.0;
-		}
-		dataGGA.HDOP = item;
+	
 		kill = true;
 	}
 
 	// MSL Altitude
 	{
-		char temp[10];
+		
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.MSL[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.MSL[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGGA.MSL = item;
+		
 		kill = true;
 	}
 	
@@ -751,25 +641,19 @@ void GPSparser::StripGGA(char * data, int length)
 
 	// Geoidal Separation
 	{
-		char temp[10];
+	
 		int t = 0;
 		for (; i <= length && kill; ++i) {
 			if (data[i] != ',') {
-				temp[t] = data[i];
+				dataGGA.GeoSep[t] = data[i];
 				++t;
 			}
 			else {
+				dataGGA.GeoSep[t] = '\0';
 				kill = false;
 			}
 		}
-		float item;
-		if (t > 0) {
-			item = atof(temp);
-		}
-		else {
-			item = -1.0;
-		}
-		dataGGA.GeoSep = item;
+		
 		kill = true;
 	}
 
@@ -792,15 +676,15 @@ void GPSparser::clearGGA()
 	dataGGA.AltUnit = '\0';
 	dataGGA.E_W = '\0';
 	dataGGA.Fix = -1.0f;
-	dataGGA.GeoSep = -1.0f;
+	dataGGA.GeoSep[0] = '\0';
 	dataGGA.GeoSepUnit = '\0';
-	dataGGA.HDOP = -1.0f;
-	dataGGA.latitude = -1.0f;
-	dataGGA.Longitude = -1.0f;
-	dataGGA.MSL = -1.0f;
+	dataGGA.HDOP[0] = '\0';
+	dataGGA.latitude[0] = '\0';
+	dataGGA.longitude[0] = '\0';
+	dataGGA.MSL[0] = '\0';
 	dataGGA.N_S = '\0';
-	dataGGA.Satellites = -1.0;
-	dataGGA.UTC = -1.0f;
+	dataGGA.Satellites[0] = '\0';
+	dataGGA.UTC[0] = '\0';
 }
 
 /* atof: convert string s to double */
@@ -906,58 +790,117 @@ char * GPSparser::getNames()
 }
 
 //VTG data
-float GPSparser::Tcourse()
+char * GPSparser::Tcourse()
 {
 		return dataVTG.Tcourse;
 }
 
-float GPSparser::Mcourse()
+char * GPSparser::Mcourse()
 {
 		return dataVTG.Mcourse;
 }
 
-float GPSparser::speedKnots()
+char * GPSparser::speedKnots()
 {
 		return dataVTG.speedKnots;
 }
 
-float GPSparser::speedKilometers()
+char * GPSparser::speedKilometers()
 {
 	return dataVTG.speedKilometers;
 }
 
-//RMC data
-float GPSparser::Latitude()
+char * GPSparser::printVTG()
 {
-	if (dataRMC.latitude>-1.0f) {
+	int k = 0;
+	printout[k] = 'n'; ++k;
+	printout[k] = 'a'; ++k;
+	printout[k] = 'm'; ++k;
+	printout[k] = 'e'; ++k;
+	printout[k] = ' '; ++k;
+	for (int i = 0; i < 6; ++i) {
+		printout[k]= dataVTG.name[i];
+		++k;
+	}
+	printout[k] = '\n'; ++k;
+	printout[k] = 'T'; ++k;
+	printout[k] = 'c'; ++k;
+	printout[k] = 'o'; ++k;
+	printout[k] = 'u'; ++k;
+	printout[k] = 'r'; ++k;
+	printout[k] = 's'; ++k;
+	printout[k] = 'e'; ++k;
+	printout[k] = ' '; ++k;
+	for (int i = 0; i < 6; ++i) {
+		printout[k] = dataVTG.Tcourse[i];
+		++k;
+	}
+	printout[k] = '\n'; ++k;
+	printout[k] = 'M'; ++k;
+	printout[k] = 'c'; ++k;
+	printout[k] = 'o'; ++k;
+	printout[k] = 'u'; ++k;
+	printout[k] = 'r'; ++k;
+	printout[k] = 's'; ++k;
+	printout[k] = 'e'; ++k;
+	printout[k] = ' '; ++k;
+	for (int i = 0; i < 6; ++i) {
+		printout[k] = dataVTG.Mcourse[i];
+		++k;
+	}
+	printout[k] = '\n'; ++k;
+	printout[k] = 'K'; ++k;
+	printout[k] = 'n'; ++k;
+	printout[k] = 'o'; ++k;
+	printout[k] = 't'; ++k;
+	printout[k] = 's'; ++k;
+	printout[k] = ' '; ++k;
+	for (int i = 0; i < 4; ++i) {
+		printout[k] = dataVTG.speedKnots[i];
+		++k;
+	}
+	printout[k] = '\n'; ++k;
+	printout[k] = 'K'; ++k;
+	printout[k] = 'm '; ++k;
+	printout[k] = '/'; ++k;
+	printout[k] = 's'; ++k;
+	printout[k] = ' '; ++k;
+	for (int i = 0; i < 4; ++i) {
+		printout[k] = dataVTG.speedKilometers[i];
+		++k;
+	}
+	printout[k] = '\0';
+	return printout;
+}
+
+//RMC data
+char * GPSparser::Latitude()
+{
+	if (dataRMC.latitude[0]!='\0') {
 		return dataRMC.latitude;
 	}
-	else if (dataGGA.latitude>-1.0f) {
+	else {
 		return dataGGA.latitude;
-	}else{
-		return -1.0f;
 	}
 }
 
-float GPSparser::Longitude()
+char * GPSparser::Longitude()
 {
-	if (dataRMC.longitude>-1.0f) {
+	if (dataRMC.longitude[0]!='\0') {
 		return dataRMC.longitude;
 	}
-	else if (dataGGA.Longitude>-1.0f) {
-		return dataGGA.Longitude;
-	}
 	else {
-		return -1.0f;
+		return dataGGA.longitude;
 	}
+	
 }
 
-float GPSparser::speed()
+char * GPSparser::speed()
 {
 		return dataRMC.speed;
 }
 
-float GPSparser::course()
+char * GPSparser::course()
 {
 		return dataRMC.course;
 }
@@ -1016,60 +959,55 @@ float * GPSparser::satIDs()
 	return data;
 }
 
-float GPSparser::PDOP()
+char * GPSparser::PDOP()
 {
 			return dataGSA.PDOP;
 	
 }
 
-float GPSparser::HDOP()
+char * GPSparser::HDOP()
 {
-	if (dataGSA.HDOP>-1.0f)
+	if (dataGSA.HDOP[0] != '\0')
 		return dataGSA.HDOP;
-	else if (dataGGA.HDOP>-1.0f) {
+	else {
 		return dataGGA.HDOP;
-	}else {
-		return -1.0f;
 	}
 }
 
-float GPSparser::VDOP()
+char * GPSparser::VDOP()
 {
 	return dataGSA.VDOP;
 	
 }
 
 //GGA data
-float GPSparser::Satalllites()
+char * GPSparser::Satalllites()
 {
 	return dataGGA.Satellites;
 }
 
-float GPSparser::MSL()
+char * GPSparser::MSL()
 {
 	return dataGGA.MSL;
 }
 
-float GPSparser::Fix()
+char GPSparser::Fix()
 {
 	return dataGGA.Fix;
 }
 
-float GPSparser::GeoSep()
+char * GPSparser::GeoSep()
 {
 	return dataGGA.GeoSep;
 }
 
-float GPSparser::UTC()
+char * GPSparser::UTC()
 {
-	if (dataRMC.UTC>-1.0f) {
+	if (dataRMC.UTC[0] != '\0') {
 		return dataRMC.UTC;
 	}
-	else if (dataGGA.UTC>-1.0f) {
+	else {
 		return dataGGA.UTC;
-	}
-	else { 
-		return 0.0; 
 	}
 
 }

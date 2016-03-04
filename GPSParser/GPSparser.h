@@ -3,26 +3,41 @@
 
 struct RMC {
 	char name[7];
-	float UTC,latitude, longitude,speed,course;
+	char UTC[11]; 
+	char latitude[11];
+	char longitude[11];
+	char speed[6];
+	char course[6];
 	char N_S, E_W,Status;
 };
 
 struct VTG {
 	char name[7];
-	float Tcourse, Mcourse, speedKnots, speedKilometers;
+	char Tcourse[7];
+	char Mcourse[7];
+	char speedKnots[5];
+	char speedKilometers[5];
 };
 
 struct GGA {
 	char name[7];
-	float UTC, latitude, Longitude, Fix, Satellites, HDOP, MSL, GeoSep;
-	char N_S, E_W, AltUnit, GeoSepUnit;
+	char UTC[11];
+	char latitude[11];
+	char longitude[11]; 
+	char Satellites[2];
+	char HDOP[5];
+	char MSL[5];
+	char GeoSep[5];
+	char Fix,N_S, E_W, AltUnit, GeoSepUnit;
 };
 
 struct GSA {
 	char name[7];
 	char ModeOne, ModeTwo;
 	float satID[12];
-	float PDOP, HDOP, VDOP;
+	char PDOP[5];
+	char HDOP[5];
+	char VDOP[5];
 };
 
 class GPSparser {
@@ -33,6 +48,7 @@ private:
 	GSA dataGSA;
 	GGA dataGGA;
 	char Names[34];
+	char printout[120];
 
 	void StripVTG(char *data, int length);
 	void clearVTG();
@@ -54,17 +70,18 @@ public:
 	char* getNames();
 	//VTG data
 	
-	float Tcourse();
-	float Mcourse();
-	float speedKnots();
-	float speedKilometers();
+	char* Tcourse();
+	char* Mcourse();
+	char* speedKnots();
+	char* speedKilometers();
+	char * printVTG();
 
 	//RMC data
 
-	float Latitude();
-	float Longitude();
-	float speed();
-	float course();
+	char* Latitude();
+	char* Longitude();
+	char* speed();
+	char* course();
 	char N_S_direction();
 	char E_W_direction();
 
@@ -73,16 +90,16 @@ public:
 	char ModeOne();
 	char ModeTwo();
 	float* satIDs();
-	float PDOP();
-	float HDOP();
-	float VDOP();
+	char* PDOP();
+	char* HDOP();
+	char* VDOP();
 
 	//GGA data
 
-	float Satalllites();
-	float MSL();
-	float Fix();
-	float GeoSep();
-	float UTC();
+	char* Satalllites();
+	char* MSL();
+	char Fix();
+	char* GeoSep();
+	char* UTC();
 
 };
