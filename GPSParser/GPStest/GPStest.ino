@@ -1,3 +1,5 @@
+#include <MemoryFree.h>
+
 
 #include <GPSparser.h>
 #include <SoftwareSerial.h>
@@ -32,6 +34,7 @@ void setup() {
   time2 = millis();
   // put your setup code here, to run once:
   calibrate();
+  pars.clearData();
   Serial.println("Calibration complete");
 }
 
@@ -50,12 +53,15 @@ void calibrate() {
 }
 
 void loop() {
-
+  
+//  Serial.print("\r\n0freememory = ");
+//  Serial.println(freeMemory());
+  
   GPShandle();
 
   //ADXL3handle();
 
-  //delay(10);
+ delay(10);
 
 }
 int count =0;
@@ -100,14 +106,17 @@ void ADXL3handle() {
 }
 
 void GPShandle() {
-
+  
   int length = GPSconnect.available();
+  if( length >0){
   char data[length] ;
 
   int i = 0;
   for (i = 0; i < length; ++i) {
     data[i] = GPSconnect.read();
   }
+//    Serial.print("\r\n\tfreememory = ");
+//  Serial.println(freeMemory());
   String information = String(data);
 
   int last = information.indexOf('*');
@@ -115,37 +124,38 @@ void GPShandle() {
   if (last < first) {
     last = information.lastIndexOf('*');
   }
-  String dat = information.substring(first, last);
+  information = information.substring(first, last);
 
-  dat.trim();
+  information.trim();
 
-  char info[dat.length()];
-  dat.toCharArray(info, dat.length());
-   // Serial.print("pure out ");
-   // Serial.print(information);
-   // Serial.println("|");
-  //
-  //  Serial.print("out put  ");
-  //  Serial.print(dat);
-  //  Serial.println("|");
+  
+  information.toCharArray(data, information.length());
+//    Serial.print("\r\n\t\tfreememory = ");
+//  Serial.println(freeMemory());
 
-
-  if (dat.length() > 10) {
-    pars.giveData(info, dat.length());
+  if (information.length() > 10) {
+    pars.giveData(data, information.length());
+//      Serial.print("\r\n\t\t\tfreememory = ");
+//  Serial.println(freeMemory());
   }
   long diff = millis() - time;
   if (diff > 1000) {
+//      Serial.print("\r\n\t\t\t\tfreememory = ");
+//  Serial.println(freeMemory());
     time = millis();
     String hata = String("ModeOne " + String(pars.ModeOne()) +
                          " ModeTwo " + String(pars.ModeTwo()));
 
     Serial.println(hata);
+    String namesInfo = String(pars.getNames());
+    Serial.println("Names " + namesInfo);
 
     if (pars.ModeTwo() != '1' && pars.ModeTwo() != '#') {
-      Serial.println("We should havve more data");
+      
+      Serial.println("We should have more data");
     }
-    // pars.clearData();
+   
   }
-
+  }
 }
 

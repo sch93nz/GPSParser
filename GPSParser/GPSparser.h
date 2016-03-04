@@ -2,24 +2,24 @@
 
 
 struct RMC {
-	char* name;
+	char name[7];
 	float UTC,latitude, longitude,speed,course;
 	char N_S, E_W,Status;
 };
 
 struct VTG {
-	char* name;
+	char name[7];
 	float Tcourse, Mcourse, speedKnots, speedKilometers;
 };
 
 struct GGA {
-	char *name;
+	char name[7];
 	float UTC, latitude, Longitude, Fix, Satellites, HDOP, MSL, GeoSep;
 	char N_S, E_W, AltUnit, GeoSepUnit;
 };
 
 struct GSA {
-	char *name;
+	char name[7];
 	char ModeOne, ModeTwo;
 	float satID[12];
 	float PDOP, HDOP, VDOP;
@@ -28,15 +28,20 @@ struct GSA {
 class GPSparser {
 
 private:
-	RMC *dataRMC;
-	VTG *dataVTG;
-	GSA *dataGSA;
-	GGA *dataGGA;
+	RMC dataRMC;
+	VTG dataVTG;
+	GSA dataGSA;
+	GGA dataGGA;
+	char Names[34];
 
 	void StripVTG(char *data, int length);
+	void clearVTG();
 	void StripRMC(char *data, int length);
+	void clearRMC();
 	void StripGSA(char *data, int length);
+	void clearGSA();
 	void StripGGA(char *data, int length);
+	void clearGGA();
 
 	double atof(char *s);
 	bool isdigit(char t);
@@ -46,7 +51,7 @@ public:
 
 	void giveData(char *info,int length);
 	void clearData();
-	char* names();
+	char* getNames();
 	//VTG data
 	
 	float Tcourse();
