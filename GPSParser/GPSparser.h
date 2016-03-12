@@ -24,7 +24,7 @@ struct GGA {
 	char UTC[11];
 	char latitude[11];
 	char longitude[11]; 
-	char Satellites[2];
+	char Satellites[3];
 	char HDOP[5];
 	char MSL[5];
 	char GeoSep[5];
@@ -58,6 +58,7 @@ private:
 	void clearGSA();
 	void StripGGA(char *data, int length);
 	void clearGGA();
+	void clearPrintOut();
 
 	double atof(char *s);
 	bool isdigit(char t);
@@ -75,7 +76,7 @@ public:
 	char* speedKnots();
 	char* speedKilometers();
 	char * printVTG();
-
+	bool checkVTG();
 	//RMC data
 
 	char* Latitude();
@@ -84,7 +85,8 @@ public:
 	char* course();
 	char N_S_direction();
 	char E_W_direction();
-
+	char * printRMC();
+	bool checkRMC();
 	//GSA data
 
 	char ModeOne();
@@ -93,7 +95,8 @@ public:
 	char* PDOP();
 	char* HDOP();
 	char* VDOP();
-
+	char * printGSA();
+	bool checkGSA();
 	//GGA data
 
 	char* Satalllites();
@@ -101,5 +104,6 @@ public:
 	char Fix();
 	char* GeoSep();
 	char* UTC();
-
+	char * printGGA();
+	bool checkGGA();
 };

@@ -18,11 +18,15 @@ int main(int argc, char **argv) {
 	char testfour[] = "$GPGGA,033410.000,2232.1745,N,11401.1920,E,1,07,1.1,107.14,M,0.00,M,,";
 
 	test.giveData(testOne, 50);
+	printf(test.printGSA());
 	test.giveData(testTwo, 66);
+	printf(test.printRMC());
 	test.giveData(testThree, 37);
+	printf(test.printVTG());
 	test.giveData(testfour, 69);
+	printf(test.printGGA());
 	printf(test.getNames());
-
+	printf(test.UTC());
 
 	int d = inputTOdegrees(419);
 	d = inputTOdegrees(418);
